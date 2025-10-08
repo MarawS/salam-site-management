@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Site {
+  id                Int      @id @default(autoincrement())
+  siteId            String   @unique @map("site_id")
+  legacyId          String?  @unique @map("legacy_id")
+  region5           String   @map("region5")
+  region13          String   @map("region13")
+  city              String
+  district          String
+  latitude          Float
+  longitude         Float
+  installationDate  DateTime @map("installation_date")
+  status            String   @default("Active")
+  technicianName    String   @map("technician_name")
+  technicianEmail   String   @map("technician_email")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@map("sites")
+}

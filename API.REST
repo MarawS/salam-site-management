@@ -1,0 +1,21 @@
+# Get all sites
+GET http://localhost:3000/api/sites
+
+# Get statistics
+curl http://localhost:3000/api/sites/stats
+
+# Create new site
+curl -X POST http://localhost:3000/api/sites \
+  -H "Content-Type: application/json" \
+  -d '{
+    "siteId": "TEST001",
+    "region5": "Central",
+    "region13": "Ar Riyad",
+    "city": "Ar Riyad",
+    "district": "Downtown",
+    "latitude": 24.7136,
+    "longitude": 46.6753,
+    "installationDate": "2024-10-01",
+    "technicianName": "Test User",
+    "technicianEmail": "test@example.com"
+  }'
