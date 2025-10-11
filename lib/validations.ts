@@ -10,7 +10,7 @@ export const siteSchema = z.object({
   latitude: z.number().min(-90).max(90),
   longitude: z.number().min(-180).max(180),
   installationDate: z.string().or(z.date()),
-  status: z.enum(['Active', 'Dismantled']).default('Active'),
+  status: z.enum(['Active', 'Inactive']).default('Active'),
   technicianName: z.string().min(1, 'Technician name is required'),
   technicianEmail: z.string().email('Invalid email address'),
 });

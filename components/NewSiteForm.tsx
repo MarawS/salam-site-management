@@ -122,7 +122,7 @@ export default function NewSiteForm({ onSuccess }: NewSiteFormProps) {
         return;
       }
 
-      toast.error('Site added successfully!');
+      toast.success('Site added successfully!');
       setFormData({
         siteId: '',
         region5: '',
