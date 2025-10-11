@@ -10,7 +10,6 @@ export default function Home() {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const handleFormSuccess = () => {
-    // Trigger refresh of statistics
     setRefreshKey(prev => prev + 1);
   };
 
@@ -24,19 +23,17 @@ export default function Home() {
             Site Management System
           </h1>
           <p className="text-gray-600">
-            Manage and track site installations
+            To Manage and Store sites
           </p>
         </div>
 
-        {/* Statistics Dashboard */}
         <StatsDashboard key={refreshKey} />
 
-        {/* Export Button */}
-        <div className="flex justify-end mb-6">
+        {/* Centered Export Button */}
+        <div className="flex justify-center mb-6">
           <ExportButton />
         </div>
 
-        {/* Site Management Form */}
         <SiteManagementForm onSuccess={handleFormSuccess} />
       </main>
     </div>

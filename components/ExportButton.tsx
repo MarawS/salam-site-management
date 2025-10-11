@@ -15,10 +15,10 @@ export default function ExportButton() {
       const sites = await response.json();
       downloadCSV(sites, 'salam_sites_export');
       
-      alert('✅ Data exported successfully!');
+      alert('Data exported successfully!');
     } catch (error) {
       console.error('Export error:', error);
-      alert('❌ Failed to export data');
+      alert('Failed to export data');
     } finally {
       setLoading(false);
     }
@@ -28,10 +28,9 @@ export default function ExportButton() {
     <button
       onClick={handleExport}
       disabled={loading}
-      className="bg-[#036B34] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#025228] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+      className="bg-[#036B34] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#025228] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      <span>📥</span>
-      <span>{loading ? 'Exporting...' : 'Export All Data to CSV'}</span>
+      {loading ? 'Exporting...' : 'Export All Data to CSV'}
     </button>
   );
 }
