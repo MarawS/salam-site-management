@@ -1,7 +1,19 @@
+'use client';
+
+import { useState } from 'react';
 import Header from '@/components/Header';
 import StatsDashboard from '@/components/StatsDashboard';
+import SiteManagementForm from '@/components/SiteManagementForm';
+import ExportButton from '@/components/ExportButton';
 
 export default function Home() {
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleFormSuccess = () => {
+    // Trigger refresh of statistics
+    setRefreshKey(prev => prev + 1);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -16,14 +28,16 @@ export default function Home() {
           </p>
         </div>
 
-        <StatsDashboard />
+        {/* Statistics Dashboard */}
+        <StatsDashboard key={refreshKey} />
 
-        <div className="bg-white rounded-xl p-8 shadow-md">
-          <div className="text-center text-gray-500">
-            <p>Site form components will be added here</p>
-            <p className="text-sm mt-2">Use the API endpoints to manage sites</p>
-          </div>
+        {/* Export Button */}
+        <div className="flex justify-end mb-6">
+          <ExportButton />
         </div>
+
+        {/* Site Management Form */}
+        <SiteManagementForm onSuccess={handleFormSuccess} />
       </main>
     </div>
   );

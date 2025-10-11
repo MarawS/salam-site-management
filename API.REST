@@ -1,11 +1,12 @@
 # Get all sites
-GET http://localhost:3000/api/sites
+POST  http://localhost:3000/api/sites/
+
 
 # Get statistics
 curl http://localhost:3000/api/sites/stats
 
 # Create new site
-curl -X POST http://localhost:3000/api/sites \
+curl -X UPDATE http://localhost:3000/api/sites \
   -H "Content-Type: application/json" \
   -d '{
     "siteId": "TEST001",
