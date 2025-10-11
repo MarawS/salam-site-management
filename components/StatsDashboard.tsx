@@ -44,8 +44,8 @@ export default function StatsDashboard() {
         </div>
         
         <div className="bg-gradient-to-br from-[#036B34] to-[#025228] p-6 rounded-lg text-white text-center shadow-lg hover:-translate-y-1 transition-transform">
-          <div className="text-5xl font-bold mb-2">{stats.dismantled}</div>
-          <div className="text-sm uppercase tracking-wide opacity-90">Dismantled</div>
+          <div className="text-5xl font-bold mb-2">{stats.inactive}</div>
+          <div className="text-sm uppercase tracking-wide opacity-90">Inactive Sites</div>
         </div>
       </div>
 

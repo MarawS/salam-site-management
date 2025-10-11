@@ -19,6 +19,6 @@ export interface Site {
 export interface SiteStats {
   total: number;
   active: number;
-  dismantled: number;
+  inactive: number;
   byRegion: Record<string, number>;
-}   
+}
