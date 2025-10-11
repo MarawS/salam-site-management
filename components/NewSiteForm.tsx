@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { regionData, cityData } from '@/lib/utils';
+import toast from 'react-hot-toast';
 
 interface NewSiteFormProps {
   onSuccess: () => void;
@@ -92,7 +93,7 @@ export default function NewSiteForm({ onSuccess }: NewSiteFormProps) {
     e.preventDefault();
     
     if (!validateForm()) {
-      alert('❌ Please fix all errors before submitting');
+      toast.error('Please fix all errors before submitting');
       return;
     }
 
@@ -114,14 +115,14 @@ export default function NewSiteForm({ onSuccess }: NewSiteFormProps) {
       if (!response.ok) {
         if (data.error === 'Site ID already exists') {
           setErrors({ siteId: 'This Site ID already exists' });
-          alert('❌ Site ID already exists in database');
+          toast.error('Site ID already exists');
         } else {
           throw new Error(data.error || 'Failed to create site');
         }
         return;
       }
 
-      alert('✅ Site created successfully!');
+      toast.error('Site added successfully!');
       setFormData({
         siteId: '',
         region5: '',
@@ -135,9 +136,10 @@ export default function NewSiteForm({ onSuccess }: NewSiteFormProps) {
         technicianEmail: '',
       });
       onSuccess();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error creating site:', error);
-      alert('❌ Failed to create site: ' + error.message);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      toast.error('Failed to add site: ' + errorMessage);
     } finally {
       setLoading(false);
     }

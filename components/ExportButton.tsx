@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { downloadCSV } from '@/lib/utils';
 
 export default function ExportButton() {
@@ -15,10 +16,10 @@ export default function ExportButton() {
       const sites = await response.json();
       downloadCSV(sites, 'salam_sites_export');
       
-      alert('Data exported successfully!');
+      toast.success('Data exported successfully!');
     } catch (error) {
       console.error('Export error:', error);
-      alert('Failed to export data');
+      toast.error('Failed to export data');
     } finally {
       setLoading(false);
     }

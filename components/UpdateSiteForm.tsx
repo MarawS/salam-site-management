@@ -7,6 +7,13 @@ interface UpdateSiteFormProps {
   onSuccess: () => void;
 }
 
+interface UpdateData {
+  technicianName: string;
+  technicianEmail: string;
+  status?: string;
+  siteId?: string;
+}
+
 export default function UpdateSiteForm({ onSuccess }: UpdateSiteFormProps) {
   const [sites, setSites] = useState<Site[]>([]);
   const [selectedSite, setSelectedSite] = useState<Site | null>(null);
@@ -84,19 +91,19 @@ export default function UpdateSiteForm({ onSuccess }: UpdateSiteFormProps) {
     e.preventDefault();
 
     if (!validateForm()) {
-      alert('❌ Please fix all errors before submitting');
+      alert('Please fix all errors before submitting');
       return;
     }
 
     if (!selectedSite) {
-      alert('❌ Please select a site to update');
+      alert('Please select a site to update');
       return;
     }
 
     setLoading(true);
 
     try {
-      const updateData: any = {
+      const updateData: UpdateData = {
         technicianName: formData.technicianName,
         technicianEmail: formData.technicianEmail,
       };
@@ -131,12 +138,11 @@ export default function UpdateSiteForm({ onSuccess }: UpdateSiteFormProps) {
       setSelectedSite(null);
       fetchSites();
       onSuccess();
-    } catch (error: any) {
-      console.error('Error updating site:', error);
-      alert('❌ Failed to update site: ' + error.message);
-    } finally {
-      setLoading(false);
-    }
+} catch (error: unknown) {
+  console.error('Error updating site:', error);
+  const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+  alert('Failed to update site: ' + errorMessage);
+}
   };
 
   return (

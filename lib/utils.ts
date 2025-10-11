@@ -1,4 +1,8 @@
-export function downloadCSV(data: any[], filename: string) {
+interface DownloadableRow {
+  [key: string]: string | number | Date | null | undefined;
+}
+
+export function downloadCSV(data: DownloadableRow[], filename: string) {
   const headers = Object.keys(data[0] || {});
   const csv = [
     headers.join(','),

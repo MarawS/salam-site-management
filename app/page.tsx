@@ -5,9 +5,11 @@ import Header from '@/components/Header';
 import StatsDashboard from '@/components/StatsDashboard';
 import SiteManagementForm from '@/components/SiteManagementForm';
 import ExportButton from '@/components/ExportButton';
+import BulkUploadModal from '@/components/BulkUploadModal';
 
 export default function Home() {
   const [refreshKey, setRefreshKey] = useState(0);
+  const [showBulkUpload, setShowBulkUpload] = useState(false);
 
   const handleFormSuccess = () => {
     setRefreshKey(prev => prev + 1);
@@ -29,13 +31,26 @@ export default function Home() {
 
         <StatsDashboard key={refreshKey} />
 
-        {/* Centered Export Button */}
-        <div className="flex justify-center mb-6">
-          <ExportButton />
-        </div>
-
         <SiteManagementForm onSuccess={handleFormSuccess} />
+
+        {/* Export & Bulk Upload Buttons - After Forms */}
+        <div className="flex justify-center gap-4 mt-6">
+          <ExportButton />
+          <button
+            onClick={() => setShowBulkUpload(true)}
+            className="bg-[#036B34] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#025228] transition-all"
+          >
+            Bulk Upload Sites
+          </button>
+        </div>
       </main>
+
+      {showBulkUpload && (
+        <BulkUploadModal
+          onClose={() => setShowBulkUpload(false)}
+          onSuccess={handleFormSuccess}
+        />
+      )}
     </div>
   );
 }
