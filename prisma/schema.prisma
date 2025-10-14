@@ -1,28 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+model site_inventory {
+  id                String             @id @default(cuid())
+  Site_ID           String             @unique
+  Legacy_Site_ID    String?
+  Site_Group        String?
+  Site_Type         String?
+  Region13          String?
+  Region5           String?
+  City              String?
+  District          String?
+  Latitude          Float?
+  Longitude         Float?
+  Status            String?
+  Operator          String?
+  Owner             String?
+  Installation_Date DateTime?
+  technician_name   String
+  technician_email  String
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  devices           device_inventory[]
+
+  @@index([Site_ID])
+  @@index([Region5])
+  @@index([City])
 }
 
-model Site {
-  id               Int      @id @default(autoincrement())
-  siteId           String   @unique @map("site_id")
-  legacyId         String?  @map("legacy_id")
-  region5          String
-  region13         String
-  city             String
-  district         String
-  latitude         Float
-  longitude        Float
-  installationDate DateTime @map("installation_date")
-  status           String   @default("Active")
-  technicianName   String   @map("technician_name")
-  technicianEmail  String   @map("technician_email")
-  createdAt        DateTime @default(now()) @map("created_at")
-  updatedAt        DateTime @updatedAt @map("updated_at")
+model device_inventory {
+  id                String         @id @default(cuid())
+  NE_Name           String
+  Site_ID           String
+  Serial_Number     String?
+  Operator_ID       String?
+  NE_IP_Address     String?
+  NE_MAC_Address    String?
+  Model_Number      String?
+  Vendor            String?
+  Device_Type       String?
+  Equipment_Role    String?
+  Technology        String?
+  Domain            String?
+  Sub_Domain        String?
+  Status            String         @default("Active")
+  Installation_Date DateTime?
+  technician_name   String
+  technician_email  String
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  site              site_inventory @relation(fields: [Site_ID], references: [Site_ID])
 
-  @@map("sites")
+  @@unique([NE_Name, Site_ID])
+  @@index([NE_Name])
+  @@index([Site_ID])
+  @@index([Device_Type])
+  @@index([Vendor])
 }

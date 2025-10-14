@@ -1,0 +1,3 @@
+NE_Name,Site_ID,Serial_Number,Operator_ID,NE_IP_Address,NE_MAC_Address,Model_Number,Vendor,Device_Type,Equipment_Role,Technology,Domain,Sub_Domain,Status,Installation_Date,technician_name,technician_email
+RYD-002-BBU-01,RYD-002,BBU999888777,STC-OP-005,192.168.1.50,00:1A:2B:3C:4D:70,BBU5900,Huawei,BBU,Core,5G,Radio Access Network (RAN),5G NR,Active,2023-04-02,Ahmed Ali,ahmed.ali@example.com
+JED-002-SWITCH-01,JED-002,SW111222333,MOB-OP-006,192.168.2.60,00:1A:2B:3C:4D:71,ASR 9000,Cisco,Switch,Aggregation,Ethernet,Transport Network,Metro Ethernet,Active,2023-04-06,Fatima Hassan,fatima.hassan@example.com
