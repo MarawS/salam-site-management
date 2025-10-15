@@ -1,3 +1,5 @@
+// prisma/schema.prisma
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,59 +9,70 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model site_inventory {
-  id                String             @id @default(cuid())
-  Site_ID           String             @unique
+model Site_Inventory {
+  id                String   @id @default(cuid())
+  Site_ID           String   // Can have duplicates for different technologies
   Legacy_Site_ID    String?
   Site_Group        String?
   Site_Type         String?
   Region13          String?
   Region5           String?
   City              String?
-  District          String?
-  Latitude          Float?
-  Longitude         Float?
+  District          String?  // Different for same Site_ID with different tech
+  Latitude          Float?   // Different for same Site_ID with different tech
+  Longitude         Float?   // Different for same Site_ID with different tech
   Status            String?
-  Operator          String?
-  Owner             String?
-  Installation_Date DateTime?
-  technician_name   String
-  technician_email  String
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-  devices           device_inventory[]
+  Operator_Owner    String?
+  Technology        String   // 5G, MW, GPON, etc.
+  
+  // WHO updated/inserted the data
+  Technician_Name   String
+  Technician_Email  String
+  
+  devices           Device_Inventory[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   @@index([Site_ID])
-  @@index([Region5])
-  @@index([City])
+  @@index([Technology])
+  @@index([Site_ID, Technology])
+  @@index([Latitude, Longitude])
+  @@index([Technician_Email])
 }
 
-model device_inventory {
-  id                String         @id @default(cuid())
-  NE_Name           String
-  Site_ID           String
-  Serial_Number     String?
-  Operator_ID       String?
-  NE_IP_Address     String?
-  NE_MAC_Address    String?
-  Model_Number      String?
-  Vendor            String?
-  Device_Type       String?
-  Equipment_Role    String?
-  Technology        String?
-  Domain            String?
-  Sub_Domain        String?
-  Status            String         @default("Active")
-  Installation_Date DateTime?
-  technician_name   String
-  technician_email  String
-  createdAt         DateTime       @default(now())
-  updatedAt         DateTime       @updatedAt
-  site              site_inventory @relation(fields: [Site_ID], references: [Site_ID])
+model Device_Inventory {
+  id                  String   @id @default(cuid())
+  Serial_Number       String?
+  NE_Name             String   // Network Element Name
+  Site_ID             String
+  Operator_ID         String?
+  NE_IP_Address       String?
+  NE_MAC_Address      String?
+  Model_Number        String?
+  Vendor              String?
+  Device_Type         String?
+  Equipment_Role      String?
+  Technology          String?
+  Domain              String?
+  Sub_Domain          String?
+  Installation_Date   DateTime?
+  
+  // WHO updated/inserted the data
+  Technician_Name     String
+  Technician_Email    String
+  
+  site                Site_Inventory @relation(fields: [siteInventoryId], references: [id], onDelete: Cascade)
+  siteInventoryId     String
+  
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
+  // UNIQUE CONSTRAINT: NE_Name + Site_ID
   @@unique([NE_Name, Site_ID])
   @@index([NE_Name])
   @@index([Site_ID])
-  @@index([Device_Type])
   @@index([Vendor])
+  @@index([Technology])
+  @@index([Technician_Email])
 }
